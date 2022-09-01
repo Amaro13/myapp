@@ -17,6 +17,6 @@ app.use(route);
 app.listen(port, () => `server running at https://localhost:${port}`);
 
 app.get("/", GetAllDoctorsController);
-app.post("/add", PostNewDoctor);
-app.put(`/edit/:id`, AlterDoctor);
-app.delete(`/delete/:id`, DeleteDoctor);
+app.post("/", PostNewDoctor);
+app.put(`/:id`, AlterDoctor);
+app.delete(`/:id`, DeleteDoctor);

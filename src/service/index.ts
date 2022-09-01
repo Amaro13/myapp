@@ -23,20 +23,43 @@ export const AddDoctor = (doctor: DoctorEntity) => {
   return doctorRepository;
 };
 
-export const EditDoctor = (doctor: DoctorEntity) => {
-  const newArr: any = doctorRepository;
-  doctorRepository = newArr.map((obj: DoctorEntity) => {
-    if (obj.id == doctor.id) {
-      return { ...obj, doctor };
-    }
-  });
+export const EditDoctor = (doctor: DoctorEntity, id: string) => {
+  const objIndex = doctorRepository.findIndex((obj) => obj.id == id);
+  doctor.id = id;
+  doctorRepository[objIndex] = doctor;
   return doctorRepository;
 };
 
-export const RemoveDoctor = (doctor: DoctorEntity) => {
-  const newArr: DoctorEntity[] = doctorRepository;
-  doctorRepository = newArr.filter((obj) => {
-    return obj.id !== doctor.id;
+export const RemoveDoctor = (id: string) => {
+  const findID = doctorRepository.findIndex((object) => {
+    return object.id == id;
   });
+  doctorRepository.splice(findID, 1);
+
   return doctorRepository;
+};
+
+export const CheckParam = (doctor: DoctorEntity) => {
+  if (doctor.name.length > 120) {
+    return "Nome muito comprido";
+  }
+  if (doctor.CRM.toString().length > 7 || isNaN(doctor.CRM)) {
+    return "CRM muito comprido ou não numérico.";
+  }
+  if (isNaN(doctor.fixo)) {
+    return "número fixo não numérico.";
+  }
+  if (isNaN(doctor.celular)) {
+    return "número celular não numérico.";
+  }
+  if (doctor.specialty.length <= 1) {
+    return "precisa ter mais especialidades.";
+  }
+};
+
+export const CheckId = (id: string) => {
+  const objIndex = doctorRepository.findIndex((obj) => obj.id == id);
+  if (objIndex < 0) {
+    return "Item não existe";
+  }
 };
